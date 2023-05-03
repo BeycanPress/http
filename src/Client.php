@@ -1,6 +1,6 @@
 <?php
 
-namespace BeycanPress\HTTP;
+namespace BeycanPress\Http;
 
 final class Client
 {
@@ -37,6 +37,7 @@ final class Client
         "TRACE",
         "PATCH",
     ];
+
     /**
      * Default options
      * @var array
@@ -148,6 +149,14 @@ final class Client
     }
 
     /**
+     * @return array
+     */
+    public function getMethods() : array
+    {
+        return $this->methods;
+    }
+
+    /**
      * @param string $url
      * @param array $data
      * @param boolean $raw
@@ -176,7 +185,7 @@ final class Client
      */
     private function send(string $url)
     {
-        if (!is_null($this->baseUrl)) {
+        if (!filter_var($url, FILTER_VALIDATE_URL) && !is_null($this->baseUrl)) {
             $url = $this->baseUrl . $url;
         }
 

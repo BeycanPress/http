@@ -1,6 +1,6 @@
 <?php
 
-namespace BeycanPress\HTTP;
+namespace BeycanPress\Http;
 
 final class Request
 {

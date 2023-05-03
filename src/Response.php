@@ -1,6 +1,6 @@
 <?php
 
-namespace BeycanPress\HTTP;
+namespace BeycanPress\Http;
 
 /**
  * A helper class to return meaningful and regular responses.
