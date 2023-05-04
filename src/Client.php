@@ -39,12 +39,16 @@ final class Client
     ];
 
     /**
+     * @var array
+     */
+    private $headers = [];
+
+    /**
      * Default options
      * @var array
      */
     private $options = [
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => [],
     ];
 
     /**
@@ -69,10 +73,34 @@ final class Client
     }
 
     /**
+     * @param mixed $key
+     * @return Client
+     */
+    public function deleteOption($key) : Client
+    {
+        if (isset($this->options[$key])) {
+            unset($this->options[$key]);
+        }
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @return Client
+     */
+    public function deleteOptions(array $keys) : Client
+    {
+        foreach ($keys as $key) {
+            $this->deleteOption($key);
+        }
+        return $this;
+    }
+
+    /**
      * @param array $options
      * @return Client
      */
-    public function addoptions(array $options) : Client
+    public function addOptions(array $options) : Client
     {
         $this->options = array_merge($this->options, $options);
         return $this;
@@ -85,7 +113,19 @@ final class Client
      */
     public function addHeader(string $key, string $value) : Client
     {
-        $this->options[CURLOPT_HTTPHEADER][] = $key . ': ' . $value;
+        $this->headers[$key] = $key . ': ' . $value;
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @return Client
+     */
+    public function deleteHeader(string $key) : Client
+    {
+        if ($this->headers[$key]) {
+            unset($this->headers[$key]);
+        }
         return $this;
     }
 
@@ -99,6 +139,14 @@ final class Client
             $this->addHeader($key, $value);
         }
 
+        return $this;
+    }
+
+    public function deleteHeaders(array $keys) : Client
+    {
+        foreach ($keys as $key) {
+            $this->deleteHeader($key);
+        }
         return $this;
     }
 
@@ -145,6 +193,7 @@ final class Client
         }
         
         $this->addOption(CURLOPT_CUSTOMREQUEST, strtoupper($name));
+        $this->addOption(CURLOPT_HTTPHEADER, array_values($this->headers));
         return $this->beforeSend(...$arguments);
     }
 
@@ -209,6 +258,8 @@ final class Client
             $result = $this->ifIsJson($result);
         }
 
+        $this->deleteOption(CURLOPT_POSTFIELDS);
+        
         return $result;
     }
 }
