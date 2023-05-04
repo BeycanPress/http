@@ -123,7 +123,7 @@ final class Client
      */
     public function deleteHeader(string $key) : Client
     {
-        if ($this->headers[$key]) {
+        if (isset($this->headers[$key])) {
             unset($this->headers[$key]);
         }
         return $this;
