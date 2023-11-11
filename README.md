@@ -97,3 +97,85 @@ $client->get(/* string $url */, /* array $data */);
 
 $client->post(/* string $url */, /* array $data */, true);
 ```
+
+ ### Request
+
+With the Request class, you can easily capture the parameters sent in the HTTP request.
+
+```php
+<?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use BeycanPress\Http\Request;
+
+$request = new Request();
+
+// Methods
+
+// You can know the request method with the following method.
+$method = $request->getMethod(); // GET, POST, PUT, DELETE, etc.
+
+// You can get the request data with the following method.
+$errors = $request->getErrors(); // Returns an array of errors.
+
+// only for post request data
+$data = $request->post(/* string $key */); 
+
+// only for get request data
+$data = $request->get(/* string $key */);
+
+// only for get file data
+$file = $request->files(/* string $key */);
+
+// only for get all request data
+$data = $request->getParam(/* string $key */);
+
+// only for get all request data
+$allParams = $request->getAllParams();
+
+// only for get header data
+$headerParam = $request->getHeaderParam(/* string $key */);
+
+// only for get all header data
+$headerParams = $request->getAllHeaderParams();
+
+// only for get json type data
+$json = $request->json(/* string $key */); 
+
+// only for get xml type data
+$json = $request->xml(/* string $key */); 
+
+// get php content - 'php://input'
+$json = $request->getContent(/* string $key */); 
+```	
+
+### Response
+
+With the Response class, you can return the response to the HTTP request.
+
+```php
+<?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use BeycanPress\Http\Response;
+
+// Methods
+
+Response::success(/* string $message */, /* mixed $data */); // 200
+
+Response::error(/* string $message */, /* string $errorCode */, /* mixed $data */, /* int $responseCode */); // $responseCode default: 200
+
+Response::badRequest(/* string $message */, /* string $errorCode */, /* mixed $data */); // 400
+
+Response::unAuthorized(/* string $message */, /* string $errorCode */, /* mixed $data */); // 401
+
+Response::forbidden(/* string $message */, /* string $errorCode */, /* mixed $data */); // 403
+
+Response::notFound(/* string $message */, /* string $errorCode */, /* mixed $data */); // 404
+
+Response::notAcceptable(/* string $message */, /* string $errorCode */, /* mixed $data */); // 406
+
+Response::serverInternal(/* string $message */, /* string $errorCode */, /* mixed $data */); // 500
+```
