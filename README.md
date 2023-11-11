@@ -4,9 +4,9 @@ The BeycanPress HTTP package is a small utility package designed to be used in s
 
 The package contains 3 classes and they are:
 
-Client
-Request
-Response
+Client`
+Request`
+Response`
 
 Classes. Below we will try to explain which class does what with examples.
 
